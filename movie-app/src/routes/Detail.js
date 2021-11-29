@@ -19,9 +19,6 @@ function Detail() {
 
     return (
         <h1>Detail</h1>
-        <div>
-            {movie}
-        </div>
     );
 }
 
