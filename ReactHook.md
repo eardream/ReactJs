@@ -4,7 +4,7 @@
 
 ## useState
 
-### What is "useState"?
+#### What is "useState"?
 ```javascript
 const [value, setValue] = useState(initialValue)
 ```
@@ -16,7 +16,7 @@ const [value, setValue] = useState(initialValue)
 
 <br />
 
-### useInput
+#### useInput
 ```javascript
 const useInput = (value, validator)
 ```
@@ -63,7 +63,7 @@ const useInput = (value, validator)
 
 <br />
 
-### useTabs
+#### useTabs
 * Tab(ex) button, select ...) 등의 onClick(or onChange) event 에 관여하고 value 값 지정
 * index 값으로 해당 item 에 접근이 가능하다. 
 * useState 와 같이 사용한다.
@@ -110,25 +110,26 @@ export default function App() {
 }
 ```
 
+<br /><br />
 <hr>
 
 ## useEffect
 
-### What is "useEffect"?
+#### What is "useEffect"?
 
-### useTitle
+#### useTitle
 
-### useConfirm & usePreventLeave
+#### useConfirm & usePreventLeave
 
-### useBeforeLeave
+#### useBeforeLeave
 
-### useFadeIn & useNetwork
+#### useFadeIn & useNetwork
 
-### useScroll & useFullScreen
+#### useScroll & useFullScreen
 
-### useNotification
+#### useNotification
 
-### useAxios
+#### useAxios
     
 
 
