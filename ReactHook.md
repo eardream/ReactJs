@@ -5,7 +5,7 @@
 
 ## useState
 
-#### What is "useState"?
+`What is "useState"?`
 
 ```javascript
 const [value, setValue] = useState(initialValue)
@@ -18,7 +18,7 @@ const [value, setValue] = useState(initialValue)
 
 <br />
 
-#### useInput
+`useInput`
 
 ```javascript
 const useInput = (value, validator)
@@ -70,7 +70,7 @@ function useInputClass() {
 
 <br />
 
-#### useTabs
+`useTabs`
 
 * Tab(ex) button, select ...) 등의 onClick(or onChange) event 에 관여하고 value 값 지정
 * index 값으로 해당 item 에 접근이 가능하다.
@@ -124,9 +124,13 @@ export default function App() {
 <br /><br />
 <br /><br />
 
+
+
+
+
 ## useEffect
 
-#### What is "useEffect"?
+`What is "useEffect"?`
 
 ```javascript
 useEffect(() => {
@@ -157,7 +161,7 @@ export default function App() {
 
 <br />
 
-#### useTitle
+`useTitle`
 
 ```javascript
 const useTitle = (initialTitle)
@@ -194,7 +198,7 @@ export default function App() {
 
 <br />
 
-#### useRef
+`useRef`
 
 ```javascript
 const ref = useRef();
@@ -252,7 +256,7 @@ const ref = useRef();
 
 <br/>
 
-#### useConfirm
+`useConfirm`
 
 * useState 와 useEffect 를 사용한 함수는 아님
 * 기본적으로 많이 사용하는 함수
@@ -284,7 +288,7 @@ const confirmDelete = useConfirm("Are you sure?", deleteWorld, abort);
 
 <br />
 
-#### usePreventLeave
+`usePreventLeave`
 
 * useState 와 useEffect 를 사용한 함수는 아님
 * 기본적으로 많이 사용하는 함수
@@ -324,7 +328,7 @@ export default function App() {
 
 <br />
 
-#### useBeforeLeave
+`useBeforeLeave`
 
 ```javascript
 const useBeforeLeave = (onBefore)
@@ -360,7 +364,7 @@ useBeforeLeave(begForLife);
 
 <br/>
 
-#### useFadeIn
+`useFadeIn`
 
 ```javascript
 const useFadeIn = (duration = 1, delay = 0) // anything
@@ -403,7 +407,7 @@ export default function App() {
 
 <br/>
 
-#### useNetwork
+`useNetwork`
 
 ```javascript
 const useNetwork = (func)
@@ -446,11 +450,12 @@ const online = useNetwork(handleNetworkChange);
 ```
 </details>
 
-#### useScroll
+<br />
+
+`useScroll`
 
 ```javascript
-const useScroll = () => {
-}
+const useScroll = () => {}
 ```
 
 * 사용자의 스크롤을 감지한다.
@@ -492,7 +497,9 @@ export default function App() {
 ```
 </details>
 
-#### useNotification
+<br/>
+
+`useNotification`
 
 ```javascript
 const useNotification = (title, options)
@@ -538,5 +545,7 @@ export default function App() {
 ```
 </details>
 
-#### useAxios
+<br />
+
+`useAxios`
 
