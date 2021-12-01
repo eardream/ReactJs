@@ -28,7 +28,7 @@ const useInput = (value, validator)
 * validator function 를 사용해 입력값들을 더 직접적으로 관여할 수 있다.
 * useState 와 같이 사용한다.
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
     // useInput
@@ -66,6 +66,7 @@ function useInputClass() {
     }
 }
 ```
+</details>
 
 <br />
 
@@ -76,7 +77,7 @@ function useInputClass() {
 * useState 와 같이 사용한다.
 * content 로 Array 를 받는다
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
 // useTabs
@@ -118,9 +119,10 @@ export default function App() {
     );
 }
 ```
+</details>
 
 <br /><br />
-<hr>
+<br /><br />
 
 ## useEffect
 
@@ -134,7 +136,7 @@ useEffect(() => {
 * deps 에 있는 데이터가 값이 변경되거나 초기화될 때 함수가 호출된다.
 * 함수 부분에 다른 함수를 호출하거나 혹은 내부에 함수를 작성할 수 있다.
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
 export default function App() {
@@ -151,6 +153,7 @@ export default function App() {
     );
 }
 ```
+</details>
 
 <br />
 
@@ -163,7 +166,7 @@ const useTitle = (initialTitle)
 * title 을 페이지가 로드된 후에 변경이 가능하다.
 * useEffect, useState 를 사용한다
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
     const useTitle = (initialTitle) => {
@@ -187,6 +190,7 @@ export default function App() {
     </div>;
 }
 ```
+</details>
 
 <br />
 
@@ -201,7 +205,7 @@ const ref = useRef();
 * 위의 내용으로 인해 컴포넌트가 리렌더링이 되지 않는다.
 * 프로퍼티에서 변경 가능한 값을 담고 있는 상자
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
     export default InputSample = () => {
@@ -244,6 +248,7 @@ Ex)
     );
 }
 ```
+</details>
 
 <br/>
 
@@ -253,7 +258,7 @@ Ex)
 * 기본적으로 많이 사용하는 함수
 * alert 와 callback 을 사용함
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
 const useConfirm = (message = "", successCallback, failureCallback) => {
@@ -275,6 +280,7 @@ const deleteWorld = () => console.log("Deleting the world...");
 const abort = () => console.log("Aborted");
 const confirmDelete = useConfirm("Are you sure?", deleteWorld, abort);
 ```
+</details>
 
 <br />
 
@@ -284,7 +290,7 @@ const confirmDelete = useConfirm("Are you sure?", deleteWorld, abort);
 * 기본적으로 많이 사용하는 함수
 * 유저가 화면을 나가기 전에 "나갈 경우 작업 중인 내용 ... " 등의 알림창을 띄움
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
 const usePreventLeave = () => {
@@ -314,6 +320,7 @@ export default function App() {
     );
 }
 ```
+</details>
 
 <br />
 
@@ -326,7 +333,7 @@ const useBeforeLeave = (onBefore)
 * 탭을 닫거나 벗어날 때 실행되는 함수
 * handler 를 사용해 event 를 받아 마우스의 위치로 해당 페이지를 벗어날 때 이벤트가 발생함
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
 const useBeforeLeave = (onBefore) => {
@@ -349,6 +356,7 @@ const useBeforeLeave = (onBefore) => {
 const begForLife = () => console.log("Pls dont leave");
 useBeforeLeave(begForLife);
 ```
+</details>
 
 <br/>
 
@@ -360,7 +368,7 @@ const useFadeIn = (duration = 1, delay = 0) // anything
 
 * 천천히 나타나는 효과를 주고 싶을 때 사용함
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
 const useFadeIn = (duration = 1, delay = 0) => {
@@ -391,6 +399,7 @@ export default function App() {
     );
 }
 ```
+</details>
 
 <br/>
 
@@ -404,7 +413,7 @@ const useNetwork = (func)
 * handler 를 사용해 event 를 받는다.
 * 종료 시에는 removeEventListener 호출
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
 const useNetwork = (onChange) => {
@@ -435,6 +444,7 @@ const handleNetworkChange = (online) => {
 };
 const online = useNetwork(handleNetworkChange);
 ```
+</details>
 
 #### useScroll
 
@@ -447,7 +457,7 @@ const useScroll = () => {
 * Effect 를 사용해 componentDidMount 시에 호출되게 함
 * EventListener 사용
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
 const useScroll = () => {
@@ -480,6 +490,7 @@ export default function App() {
     );
 }
 ```
+</details>
 
 #### useNotification
 
@@ -490,7 +501,7 @@ const useNotification = (title, options)
 * user 에게 알림을 보낸다.
 * noti 와 같으며 권한이 필요하다.
 
-Ex)
+<details><summary>Ex)</summary>
 
 ```javascript
 const useNotification = (title, options) => {
@@ -525,6 +536,7 @@ export default function App() {
     );
 }
 ```
+</details>
 
 #### useAxios
 
