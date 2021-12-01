@@ -549,3 +549,72 @@ export default function App() {
 
 `useAxios`
 
+```javascript
+const useAxios = (opts, axiosInstance = defaultAxios)
+```
+
+* axios -> 자동으로 Header 를 설정하거나 default url 을 설정하는 것
+* trigger 를 사용해 Effect 를 업데이트하고 view 를 업데이트 하는 것
+
+<details><summary>Ex)</summary>
+
+```javascript
+const useAxios = (opts, axiosInstance = defaultAxios) => {
+  const [state, setState] = useState({
+    loading: true,
+    error: null,
+    data: null
+  });
+
+  const [trigger, setTrigger] = useState(0);        // 트리거
+
+  if (!opts.url) {      // url 이 없을 경우 Fetch 할 것이 없기 때문에 return
+    return;
+  }
+
+  const refetch = () => {
+    setState({
+      ...state,
+      loading: true
+    });
+    setTrigger(Date.now());
+  };
+
+  useEffect(() => {
+    axiosInstance(opts) // fetch data 가져오기
+      .then((data) => {
+        setState({
+          ...state,
+          loading: false,
+          data
+        });
+      })
+      .catch((error) => {       // error 넘기기
+        setState({ ...state, loading: false, error });      // 에러를 넘김
+      });
+  }, [trigger]);        // 트리거가 변경될 때마다 data update
+
+  return { ...state, refetch };
+};
+
+export default useAxios;
+
+// 사용법
+const { loading, error, data, refetch } = useAxios({
+    url: "https://yts.mx/api/v2/list_movies.json"       // opts.url
+  });
+  
+  console.log(`Loading:${loading}\n
+  Data:${JSON.stringify(data)}\n        // data 가 json 으로 오기 때문에
+  error:${error}`);
+  
+  return (
+    <div className="App">
+      <h1>{data && data.status}</h1>
+      <h2>{loading && "Loading"}</h2>
+      <button onClick={refetch}>Refetch</button>
+    </div>
+```
+</details>
+
+
