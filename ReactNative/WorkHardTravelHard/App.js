@@ -1,8 +1,8 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Ionicons, Fontisto} from '@expo/vector-icons';
+import {Fontisto, Ionicons} from '@expo/vector-icons';
 import {theme} from "./colors";
 
 const STORAGE_KEY = "@toDos";
@@ -74,25 +74,35 @@ export default function App() {
     };
 
     // 아이템 삭제
-    const deleteTodo = (key) => {
-        Alert.alert(
-            "Delete To Do",
-            "Are you sure?",
-            [
-                {
-                    text: "Cancel",
-                },
-                {
-                    text: "Delete",
-                    style: "destructive",
-                    onPress: async () => {
-                        const newToDos = {...toDos};
-                        delete newToDos[key]
+    const deleteTodo = async (key) => {
+        if (Platform.OS === "web") {
+            const ok = confirm("Do you want to delete this To do?");
+            if (ok) {
+                const newToDos = {...toDos};
+                delete newToDos[key]
 
-                        await setAndSave(newToDos);
+                await setAndSave(newToDos);
+            }
+        } else {
+            Alert.alert(
+                "Delete To Do",
+                "Are you sure?",
+                [
+                    {
+                        text: "Cancel",
                     },
-                },
-            ]);
+                    {
+                        text: "Delete",
+                        style: "destructive",
+                        onPress: async () => {
+                            const newToDos = {...toDos};
+                            delete newToDos[key]
+
+                            await setAndSave(newToDos);
+                        },
+                    },
+                ]);
+        }
     };
 
     // 완료 표시 on / off
@@ -138,10 +148,17 @@ export default function App() {
             <StatusBar style="auto"/>
             <View style={styles.header}>
                 <TouchableOpacity onPress={work}>
-                    <Text style={{...styles.btnText, color: working ? theme.white : theme.gray}}>Work</Text>
+                    <Text style={{
+                        fontSize: 38,
+                        fontWeight: "600",
+                        color: working ? theme.white : theme.gray
+                    }}>Work</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={travel}>
-                    <Text style={{...styles.btnText, color: !working ? theme.white : theme.gray}}>Travel</Text>
+                    <Text style={{
+                        fontSize: 38,
+                        fontWeight: "600", color: !working ? theme.white : theme.gray
+                    }}>Travel</Text>
                 </TouchableOpacity>
             </View>
             <View>
@@ -219,11 +236,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginTop: 100,
     },
-    btnText: {
-        color: theme.white,
-        fontSize: 38,
-        fontWeight: "600",
-    },
+    btnText: {},
     input: {
         backgroundColor: theme.white,
         paddingVertical: 10,
