@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Dimensions, ScrollView, StyleSheet, Text, View, ActivityIndicator} from "react-native";
+import {Dimensions, ScrollView, Text, View, ActivityIndicator, StyleSheet} from "react-native";
 import ExpoLocation from "expo-location/src/ExpoLocation";
 import {Fontisto} from "@expo/vector-icons";
 
@@ -21,7 +21,7 @@ const background = {
     Clear: "lightblue",
     Rain: "darkgrey",
     Atmosphere: "slategray",
-    Snow: "white",
+    Snow: "lightsteelblue",
     Drizzle: "gray",
     Thunderstorm: "dimgray"
 };
@@ -72,7 +72,7 @@ export default function App() {
             // indicatorStyle={"white"}     // iOS 에서만 작동
         >
             {days.length === 0 ?
-                (<View style={styles.day}>
+                (<View style={styles.container}>
                     <ActivityIndicator color="black" size="large" style={{marginTop: 10}}/>
                 </View>)
                 :
@@ -98,7 +98,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
     container: {
-        // backgroundColor: "tomato",
+// backgroundColor: "tomato",
         flex: 1,
         alignItems: "center",
     },
