@@ -34,19 +34,45 @@
 <br />
 
 
-### 📺 Component
-
-  * `View`
-      * 기본적인 컴포넌트
-      * Layout(View, Linear, Constraint, Relative ... etc) 과 동일하다 보면 됨
-
-  * `TextInput`
-      * EditText 와 같음
-      * 키보드 제약을 걸 수 있음
-      * RN 에서 유저가 입력을 할 수 있는 유일한 Component
-  
+### 🚨 `Alert`
+* 유저에게 기본 알림 UI 를 보일 수 있다.
+* OS 내부의 AlertDialog 가 동작하게 되며 Button[] 을 넘길 수 있다.
+* Button -> `onPress` 를 사용해 함수를 넘길 수 있다.
 
 <br />
+
+
+
+### 💾 기기에 저장할 수 있는 `AsyncStorage`
+* AsyncStorage 를 사용해 기기 내부 저장소에 원하는 데이터를 저장할 수 있다
+* Preference 와 같은 동작이며 파일명을 명시해 줘야 함
+* 기기 용량이 얼마나 남아있고 어떻게 callback 이 올지 모르기 때문에 `async-await` 사용 필수
+
+<br />
+
+
+### 🌠 `Asset Drawable`
+* Icons
+	- Library 설치후 Component 추가하면 됨
+* Fonts
+	```javascript
+	Font.useFont(Ionicons.font);
+	```
+	- 위의 방식처럼 가져오면 됨
+
+* Images
+	- 내부 저장소 이미지
+	```
+	useAsset(require(/*path*/));
+	```
+
+	- Url 불러오기  	
+	```
+	Image.prefetch(imageUrl);
+	```
+	
+<br />
+
 
 ### 🖱 `Click Event`
 * TouchableOpacity
@@ -70,23 +96,37 @@
 
 <br />  
 
-### 💾 기기에 저장할 수 있는 `AsyncStorage`
-* AsyncStorage 를 사용해 기기 내부 저장소에 원하는 데이터를 저장할 수 있다
-* Preference 와 같은 동작이며 파일명을 명시해 줘야 함
-* 기기 용량이 얼마나 남아있고 어떻게 callback 이 올지 모르기 때문에 `async-await` 사용 필수
+
+### 📺 `Component`
+
+  * `View`
+      * 기본적인 컴포넌트
+      * Layout(View, Linear, Constraint, Relative ... etc) 과 동일하다 보면 됨
+
+  * `TextInput`
+      * EditText 와 같음
+      * 키보드 제약을 걸 수 있음
+      * RN 에서 유저가 입력을 할 수 있는 유일한 Component
+  
 
 <br />
 
-### 🚨 `Alert`
-* 유저에게 기본 알림 UI 를 보일 수 있다.
-* OS 내부의 AlertDialog 가 동작하게 되며 Button[] 을 넘길 수 있다.
-* Button -> `onPress` 를 사용해 함수를 넘길 수 있다.
+### 🌓 `DarkMode`
+* 안드로이드, iOS 동일하게 적용이 됨
+* elevation 적용됨
+
+```javascript
+const isDarkMode = useColorScheme() === "dark";
+
+```
 
 <br />
+
 
 ### ⏱ `Splash` And `App Loading`
 * AppIntro 화면처럼 Splash 화면을 만들고 Intro 내부에서 화면의 Component 를 준비할 수 있다.
 * AppLoading onFinish={} startAsync={}
+
 ```javascript
 const [ready, setReady] = useState(false);
 const onFinish = () => setReady(true);
@@ -109,27 +149,46 @@ if(ready) {
 
 <br />
 
-### 🌠 `Asset Drawable`
-* Icons
-	- Library 설치후 Component 추가하면 됨
-* Fonts
-	```javascript
-	Font.useFont(Ionicons.font);
-	```
-	- 위의 방식처럼 가져오면 됨
+### 🧭 `TabLayout`
+* 안드로이드의 TabLayout 과 같이 동작하며 아이콘, 텍스트 설정이 가능하다.
+* 탭 내부에 스크린을 하나씩 정의한다.
+* TitleBar 를 설정할 수 있다.
 
-* Images
-	- 내부 저장소 이미지
-	```
-	useAsset(require(/*path*/));
-	```
+```javascript
 
-	- Url 불러오기  	
-	```
-	Image.prefetch(imageUrl);
-	```
-	
+const Tab = createBottomTabNavigator();
 
+const Tabs = () => (
+		// screenOption 은 전체 
+    <Tab.Navigator screenOptions={{	
+        tabBarStyle : { 
+			backgroundColor: "tomato", 
+			position: "absolute"
+		},
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "lightgray",}}>
+        <Tab.Screen 
+			name="Movies" 
+			component={Movies} 
+			// option 은 스크린 하나 
+			options={{
+				headerTitleStyle: {color: "tomato"}, 
+				headerRight: () => 
+				<View>
+					<Text>Hello</Text>
+				</View>}}/>
+				// 위와 같이 새로운 View 를 그릴 수 있다.
+
+        <Tab.Screen name="Tv" component={Tv}/>
+        <Tab.Screen name="Search" component={Search}/>
+    </Tab.Navigator>
+);
+
+export default Tabs;
+
+```
+
+<br />
 
 
 ### `3️⃣rd Party Package` And `Api`
