@@ -84,6 +84,54 @@
 
 <br />
 
+### ⏱ `Splash` And `App Loading`
+* AppIntro 화면처럼 Splash 화면을 만들고 Intro 내부에서 화면의 Component 를 준비할 수 있다.
+* AppLoading onFinish={} startAsync={}
+```javascript
+const [ready, setReady] = useState(false);
+const onFinish = () => setReady(true);
+const startLoading = async () => {
+    const [loaded] = Font.useFonts(Ionicons.font); // 폰트
+    const [assets] = useAssets([require("./image.jpeg")]);  // 이미지
+    await Promise.all([...loaded, ...assets]);
+	
+	// 이외의 소스
+}
+
+// 호출 방식
+if(ready) {
+	<AppLoading
+    	startAsync={startLoading}
+    	onFinish={setReady}
+        onError={console.error}/>
+}
+```
+
+<br />
+
+### 🌠 `Asset Drawable`
+* Icons
+	- Library 설치후 Component 추가하면 됨
+* Fonts
+	```javascript
+	Font.useFont(Ionicons.font);
+	```
+	- 위의 방식처럼 가져오면 됨
+
+* Images
+	- 내부 저장소 이미지
+	```
+	useAsset(require(/*path*/));
+	```
+
+	- Url 불러오기  	
+	```
+	Image.prefetch(imageUrl);
+	```
+	
+
+
+
 ### `3️⃣rd Party Package` And `Api`
   * RN Sdk (오픈소스) : <a href="https://reactnative.directory">reactnative.directory</a>
   * Expo Sdk : <a href="https://docs.expo.dev/versions/latest/"> docs.expo.dev</a>
