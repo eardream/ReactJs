@@ -27,9 +27,7 @@
        <View style={{ flex: 1, backgroundColor: "teal"}}></View>
        <View style={{ flex: 1, backgroundColor: "orange"}}></View>
    </View>
-```      
-
-  </details>
+```
 
 <br />
 
@@ -153,6 +151,7 @@ if(ready) {
 * 안드로이드의 TabLayout 과 같이 동작하며 아이콘, 텍스트 설정이 가능하다.
 * 탭 내부에 스크린을 하나씩 정의한다.
 * TitleBar 를 설정할 수 있다.
+* 각각의 스크린에서 아이콘 및 theme 를 설정할 수 있다.
 
 ```javascript
 
@@ -172,15 +171,21 @@ const Tabs = () => (
 			component={Movies} 
 			// option 은 스크린 하나 
 			options={{
-				headerTitleStyle: {color: "tomato"}, 
+				headerTitleStyle: {color: "tomato"},
+                tabBarIcon: ({focused, color, size}) => 
+                    (<Ionicons name={focused ? "film" : "film-outline"} size={size} color={color}/>),
 				headerRight: () => 
 				<View>
 					<Text>Hello</Text>
 				</View>}}/>
 				// 위와 같이 새로운 View 를 그릴 수 있다.
 
-        <Tab.Screen name="Tv" component={Tv}/>
-        <Tab.Screen name="Search" component={Search}/>
+        <Tab.Screen name="TV" component={Tv} options={{
+            tabBarIcon: ({focused, color, size}) => (<Ionicons name={focused ? "ios-tv" : "ios-tv-outline"} size={size} color={color}/>)
+        }}/>
+        <Tab.Screen name="Search" component={Search} options={{
+            tabBarIcon: ({focused, color, size}) => (<Ionicons name={focused ? "search" : "search-outline"} size={size} color={color}/>)
+        }}/>
     </Tab.Navigator>
 );
 
@@ -191,7 +196,7 @@ export default Tabs;
 <br />
 
 
-### `3️⃣rd Party Package` And `Api`
+### `3️⃣rd Party Package` and `Api`
   * RN Sdk (오픈소스) : <a href="https://reactnative.directory">reactnative.directory</a>
   * Expo Sdk : <a href="https://docs.expo.dev/versions/latest/"> docs.expo.dev</a>
   
