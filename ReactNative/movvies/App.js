@@ -24,8 +24,6 @@ export default function App() {
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
             <NavigationContainer>
                 <Root/>
-                {/*<Tabs/>*/}
-                {/*<Stack/>*/}
             </NavigationContainer>
         </ThemeProvider>
     );

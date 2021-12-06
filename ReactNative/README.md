@@ -25,8 +25,7 @@
 ```html
 
 <View style={{ flex: 1 }}> // 부모 뷰
-    <View style={{ flex: 1, backgroundColor:
-    "tomato"}}>
+    <View style={{ flex: 1, backgroundColor: "tomato"}}>
 </View>
 <View style={{ flex: 1, backgroundColor: "teal"}}></View>
 <View style={{ flex: 1, backgroundColor: "orange"}}></View>
@@ -127,7 +126,6 @@ const isDarkMode = useColorScheme() === "dark";
 * 제스쳐를 사용할 수 있고 transition 이 가능함
 
 <br />
-
 
 ### ⏱ `Splash` And `App Loading`
 
@@ -302,7 +300,6 @@ export default function App() {
 const Btn = styled.TouchableOpacity`
   flex: 1;
   background-color: ${(props) => props.theme.mainBgColor};      // props 로 전달받는다.
-`;
 ```
 
 <br />
