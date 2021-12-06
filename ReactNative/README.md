@@ -296,10 +296,11 @@ export default function App() {
 };
 
 
-// 호출 방법
+// 호출 방법       // props 로 전달받는다.
 const Btn = styled.TouchableOpacity`
   flex: 1;
-  background-color: ${(props) => props.theme.mainBgColor};      // props 로 전달받는다.
+  background-color: ${(props) => props.theme.mainBgColor};
+`;
 ```
 
 <br />
