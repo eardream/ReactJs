@@ -13,7 +13,11 @@ const Tabs = () => {
     const isDarkMode = useColorScheme() === "dark";
 
     return (
-        <Tab.Navigator screenOptions={{
+        <Tab.Navigator
+            sceneContainerStyle={{
+                backgroundColor: isDarkMode ? colors.blackPearl : colors.white
+            }}
+            screenOptions={{
             tabBarStyle: {backgroundColor: isDarkMode ? colors.blackPearl : colors.white, position: "absolute"},
             tabBarActiveTintColor: isDarkMode ? colors.yellow : colors.blackPearl,
             tabBarInactiveTintColor: isDarkMode ? colors.inactiveDark : colors.inactiveLight,

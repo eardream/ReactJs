@@ -16,6 +16,12 @@
 
 * View 에는 그려져 있지만 화면에 표시가 되지 않는 Component => OS 와 통신하기 위함
 
+* Native 요소에 가까운 것을 설치했을 경우 `npx run 'platform'` 을 다시해 줘야 함
+
+* npm install 이 안 될 경우 `--save --legacy-peer-deps` 를 명령문 뒤에 붙여서 설치
+
+* `Pod Min Target 이 안 맞을 경우에는 pod 라이브러리 확인 후 ios 폴더 내부에서 pod update && pod install`
+
 <br />
 
 ### ⚠️ `Layout Caution`
@@ -72,6 +78,12 @@
   ```
 
 <br />
+
+### 🌫 `BlurView`
+ * View 를 blur 처리 할 수 있다.
+ * ❗️ 단 블러를 주고 싶지 않은 영역은 BlurView 내부에 작성해야 한다.
+
+<br/>
 
 ### 🖱 `Click Event`
 

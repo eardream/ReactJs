@@ -7,6 +7,7 @@ const colors = {
 
     white : "#ffffff",
     black : "#000000",
+    overviewColor: "rgba(255, 255, 255, 0.6)",
 }
 
 export default colors;
