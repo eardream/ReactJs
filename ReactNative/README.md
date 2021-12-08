@@ -164,7 +164,64 @@ if (ready) {
 }
 ```
 
+
+
 <br />
+
+### 📜 `ScrollView` and `FlatList`
+
+* 안드로이드 내의 ScrollView 라고 볼 수 있다.
+* horizontal, vertical 을 지정할 수 있다.
+* `refreshControl` 을 사용해 refreshLayout 을 생성할 수 있다.
+* Scrollview 는 모든 Component 가 한 번에 렌더링된다는 단점이 있다. 그래서 사용하게 되는 게 `FlatList` 
+* FlatList 는 컴포넌트가 보이기 직전에 사용된다.
+
+<!--ScollView 사용법-->
+
+
+
+```xml
+<ScrollView
+            refreshControl={
+            	<RefreshControl refresh={isRefresh} onRefresh={onRefreshListener}/>
+            }
+>
+	{itemList.map((item) => /* anything */ }
+
+</ScrollView>
+```
+
+
+
+<!-- FlatList 사용법 -->
+
+<br />
+
+
+
+### 💅 `Styled Component`
+
+* 일반적인 css 를 react-native 코드로 변경해 준다.
+
+* 첫 철자는 대문자로 작성해야 한다.
+
+* View, Text, Image... 등등 선언해야 할 것을 생략해 준다.
+
+  <br />
+
+
+
+### 👌 `Swipe` - <a href="https://github.com/leecade/react-native-swiper">공식문서</a>
+
+* Web 버전과 native 버전으로 나뉜다
+
+* 안드로이드의 ViewPager 와 방식이 비슷하다.
+
+* Paginate, Button 컨트롤 등등이 가능하다.
+
+  <br />
+
+
 
 ### 📚 `Stack Navigator`
 

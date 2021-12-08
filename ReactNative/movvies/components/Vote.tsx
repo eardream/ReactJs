@@ -17,11 +17,7 @@ interface VoteProps {
 const Vote: React.FC<VoteProps> = ({ average }) => {
   const isDark = useColorScheme() === "dark";
 
-  return average == 0 ? (
-    <Score>Coming soon</Score>
-  ) : (
-    <Score>⭐️ {average}/10</Score>
-  );
+  return <Score>{average == 0 ? `Coming soon` : `⭐️ ${average}/10`}</Score>;
 };
 
 export default Vote;
