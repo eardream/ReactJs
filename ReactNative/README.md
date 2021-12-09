@@ -1,18 +1,21 @@
 # React Native
 
-    - 왕초보를 위한 React Native 101
-    https://nomadcoders.co/react-native-for-beginners
+```
+- 왕초보를 위한 React Native 101
+https://nomadcoders.co/react-native-for-beginners
+```
 
 * Expo 를 사용해 React javascript / CSS 단만 연결
+
 
 ### ⚠️ The Rules
 
 * HTML DOM 은 사용할 수 없다.
-    - 모든 Text 는 <Text></Text> 컴포넌트 안에 들어가 있어야 한다.
+	* 모든 Text 는  컴포넌트 안에 들어가 있어야 한다.
 
 * style object 는 필수가 아니다.
-    - Component 안에도 사용 가능
-    - Web 에 있는 것을 최대한 가져오려 했지만 사용할 수 없는 것도 꽤 많고 다른 것이 많음
+	* Component 안에도 사용 가능
+	* Web 에 있는 것을 최대한 가져오려 했지만 사용할 수 없는 것도 꽤 많고 다른 것이 많음
 
 * View 에는 그려져 있지만 화면에 표시가 되지 않는 Component => OS 와 통신하기 위함
 
@@ -22,7 +25,7 @@
 
 * `Pod Min Target 이 안 맞을 경우에는 pod 라이브러리 확인 후 ios 폴더 내부에서 pod update && pod install`
 
-<br />
+
 
 ### ⚠️ `Layout Caution`
 
@@ -38,7 +41,7 @@
 </View>
 ```
 
-<br />
+
 
 ### 🚨 `Alert`
 
@@ -46,7 +49,7 @@
 * OS 내부의 AlertDialog 가 동작하게 되며 Button[] 을 넘길 수 있다.
 * Button -> `onPress` 를 사용해 함수를 넘길 수 있다.
 
-<br />
+
 
 ### 💾 기기에 저장할 수 있는 `AsyncStorage`
 
@@ -54,72 +57,74 @@
 * Preference 와 같은 동작이며 파일명을 명시해 줘야 함
 * 기기 용량이 얼마나 남아있고 어떻게 callback 이 올지 모르기 때문에 `async-await` 사용 필수
 
-<br />
+
 
 ### 🌠 `Asset Drawable`
 
 * Icons
-    - Library 설치후 Component 추가하면 됨
+	* Library 설치후 Component 추가하면 됨
 * Fonts
-  ```javascript
-  Font.useFont(Ionicons.font);
-  ```
-    - 위의 방식처럼 가져오면 됨
+
+```javascript
+Font.useFont(Ionicons.font);
+```
+
+```
+- 위의 방식처럼 가져오면 됨
+```
 
 * Images
-    - 내부 저장소 이미지
-  ```
-  useAsset(require(/*path*/));
-  ```
+	* 내부 저장소 이미지
+```
+useAsset(require(/*path*/));
+```
 
-    - Url 불러오기
-  ```
-  Image.prefetch(imageUrl);
-  ```
+* Url 불러오기
+```
+Image.prefetch(imageUrl);
+```
 
-<br />
+
 
 ### 🌫 `BlurView`
- * View 를 blur 처리 할 수 있다.
- * ❗️ 단 블러를 주고 싶지 않은 영역은 BlurView 내부에 작성해야 한다.
 
-<br/>
+* View 를 blur 처리 할 수 있다.
+* ❗️ 단 블러를 주고 싶지 않은 영역은 BlurView 내부에 작성해야 한다.
+
+
 
 ### 🖱 `Click Event`
 
 * TouchableOpacity
-    * 해당 Component 가 클릭될 때 투명도를 이용해 클릭 여부를 유저가 알 수 있다.
-    * 가장 많이 쓰이는 touch event
-
+	* 해당 Component 가 클릭될 때 투명도를 이용해 클릭 여부를 유저가 알 수 있다.
+	* 가장 많이 쓰이는 touch event
 
 * TouchableHighlight
-    * Component 의 배경색을 이용해 클릭의 범위를 알 수 있다.
-
+	* Component 의 배경색을 이용해 클릭의 범위를 알 수 있다.
 
 * TouchableWithoutFeedback
-    * UI Event 없이 동작한다.
-    * UI 가 변경되지 않는 것을 원하는 경우 해당 Component 사용
-
+	* UI Event 없이 동작한다.
+	* UI 가 변경되지 않는 것을 원하는 경우 해당 Component 사용
 
 * Pressable
-    * 2021.12 월 기준 비교적 최신에 만들어진 Click Event
-    * 설정할 수 있는 event 가 많음 (LongPress, disabled)
-    * `hitSlop` -> 터치 영역을 바깥쪽으로 더 넓힘
+	* 2021.12 월 기준 비교적 최신에 만들어진 Click Event
+	* 설정할 수 있는 event 가 많음 (LongPress, disabled)
+	* `hitSlop` -> 터치 영역을 바깥쪽으로 더 넓힘
 
-<br />  
+
 
 ### 📺 `Component`
 
 * `View`
-    * 기본적인 컴포넌트
-    * Layout(View, Linear, Constraint, Relative ... etc) 과 동일하다 보면 됨
+	* 기본적인 컴포넌트
+	* Layout(View, Linear, Constraint, Relative ... etc) 과 동일하다 보면 됨
 
 * `TextInput`
-    * EditText 와 같음
-    * 키보드 제약을 걸 수 있음
-    * RN 에서 유저가 입력을 할 수 있는 유일한 Component
+	* EditText 와 같음
+	* 키보드 제약을 걸 수 있음
+	* RN 에서 유저가 입력을 할 수 있는 유일한 Component
 
-<br />
+
 
 ### 🌓 `DarkMode`
 
@@ -128,16 +133,15 @@
 
 ```javascript
 const isDarkMode = useColorScheme() === "dark";
-
 ```
 
-<br />
+
 
 ### 📄 `Drawer Navigation`
 * 안드로이드 내부의 Menu 와 동일함
 * 제스쳐를 사용할 수 있고 transition 이 가능함
 
-<br />
+
 
 ### ⏱ `Splash` And `App Loading`
 
@@ -166,22 +170,26 @@ if (ready) {
 
 
 
-<br />
-
 ### 📜 `ScrollView` and `FlatList`
 
 * 안드로이드 내의 ScrollView 라고 볼 수 있다.
+
 * horizontal, vertical 을 지정할 수 있다.
+
 * `refreshControl` 을 사용해 refreshLayout 을 생성할 수 있다.
-* Scrollview 는 모든 Component 가 한 번에 렌더링된다는 단점이 있다. 그래서 사용하게 되는 게 `FlatList` 
-* FlatList 는 컴포넌트가 보이기 직전에 사용된다.
 
-<!--ScollView 사용법-->
+* Scrollview 는 모든 Component 가 한 번에 렌더링된다는 단점이 있다. 그래서 사용하게 되는 게 `FlatList`
 
 
+* FlatList 는 컴포넌트가 보이기 직전에 사용된다 [FlatList · React Native](https://reactnative.dev/docs/flatlist)
 
-```xml
-<ScrollView
+* FlatList 도 ScrollView 와 비슷하나 renderItem 과 data 가 필수로 필요하다.
+
+* Component 하위에 작성하는 게 아닌 renderItem 내부에 작성하는 것이 특징
+
+```html
+// 스크롤뷰 작성법
+<ScrollView 
             refreshControl={
             	<RefreshControl refresh={isRefresh} onRefresh={onRefreshListener}/>
             }
@@ -191,11 +199,17 @@ if (ready) {
 </ScrollView>
 ```
 
-
-
-<!-- FlatList 사용법 -->
-
-<br />
+```html
+<FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingHorizontal: 40 }}
+              ItemSeparatorComponent={VSeparator}
+              keyExtractor={moviewKeyExtractor}
+              data={trending}						//각각의 item 이 됨
+              renderItem={renderVMedia}		// 이 부분에 하위에 랜더링하고 싶은 아이템을 작성한다.
+            />
+```
 
 
 
@@ -207,11 +221,9 @@ if (ready) {
 
 * View, Text, Image... 등등 선언해야 할 것을 생략해 준다.
 
-  <br />
 
 
-
-### 👌 `Swipe` - <a href="https://github.com/leecade/react-native-swiper">공식문서</a>
+### 👌 `Swipe` - 공식문서
 
 * Web 버전과 native 버전으로 나뉜다
 
@@ -219,43 +231,41 @@ if (ready) {
 
 * Paginate, Button 컨트롤 등등이 가능하다.
 
-  <br />
-
 
 
 ### 📚 `Stack Navigator`
 
 * 화면에서 화면으로 넘어갈 때 화면이 Stack 에 쌓이고 그것을 사용자도 볼 수 있음
 * Activity > DetailActivity 의 개념
-    * Stack Navigator
-        * React Navigation 으로 Javascript 로 만들어짐
-        * 일반적인 OS Navigation 과 동일하지만 성능은 떨어질 수 있음
+	* Stack Navigator
+		* React Navigation 으로 Javascript 로 만들어짐
+		* 일반적인 OS Navigation 과 동일하지만 성능은 떨어질 수 있음
 
-    * Native Stack Navigator
-        * Native Api 를 사용해서 만들어짐
-        * 동작 자체도 Native 와 동일
-        * UIStackNavigator 나 Fragment 를 사용하려면 Native 영역 필수
-        * 커스텀할 수 있는 영역이 줄어듬
+	* Native Stack Navigator
+	    * Native Api 를 사용해서 만들어짐
+	    * 동작 자체도 Native 와 동일
+	    * UIStackNavigator 나 Fragment 를 사용하려면 Native 영역 필수
+	    * 커스텀할 수 있는 영역이 줄어듬
 
-        ```javascript
-        const NativeStack = createNativeStackNavigator();
-        
-        const Stack = () => (
-        <NativeStack.Navigator screenOptions={{
-            presentation: "card",   // 화면 전환 방법 
-            animation : "fade",     // animation -> 공식문서 참조
-            headerBackTitleVisible: false,
-            headerTintColor: colors.yellow
-        }}>
-          
-            <NativeStack.Screen name="One" component={ScreenOne}/>
-            <NativeStack.Screen name="Two" component={ScreenTwo}/>
-            <NativeStack.Screen name="Three" component={ScreenThree} options={{presentation : "modal"}}/>
-        </NativeStack.Navigator>
-        );
-        ```
+```javascript
+    const NativeStack = createNativeStackNavigator();
+    
+    const Stack = () => (
+    <NativeStack.Navigator screenOptions={{
+        presentation: "card",   // 화면 전환 방법 
+        animation : "fade",     // animation -> 공식문서 참조
+        headerBackTitleVisible: false,
+        headerTintColor: colors.yellow
+    }}>
+      
+        <NativeStack.Screen name="One" component={ScreenOne}/>
+        <NativeStack.Screen name="Two" component={ScreenTwo}/>
+        <NativeStack.Screen name="Three" component={ScreenThree} options={{presentation : "modal"}}/>
+    </NativeStack.Navigator>
+    );
+```
 
-<br />
+
 
 ### 🧭 `TabLayout`
 
@@ -309,7 +319,7 @@ export default Tabs;
 
 ```
 
-<br />
+
 
 ### ⚔️ `TabLayout` 과 `Stack Navigator` 사용 시 Header 및 화면 처리
 
@@ -344,7 +354,7 @@ const ScreenThree = (
 );
 ```
 
-<br />
+
 
 ### 🌗 `ThemeProvider`
 * 모든 화면에서 렌터 트리에 colorScheme 를 사용하지 않고 최상위 root 에 선언해 하위 컴포넌트에서도 상속받아 사용할 수 있게 하는 역할
@@ -372,17 +382,15 @@ const Btn = styled.TouchableOpacity`
 `;
 ```
 
-<br />
+
 
 ### `3️⃣rd Party Package` and `Api`
 
-* RN Sdk (오픈소스) : <a href="https://reactnative.directory">reactnative.directory</a>
-* Expo Sdk : <a href="https://docs.expo.dev/versions/latest/"> docs.expo.dev</a>
+* RN Sdk (오픈소스) : reactnative.directory
+* Expo Sdk :  docs.expo.dev
 
-<br />
+
 
 ### 🎬 `Others`
 
-* Expo Icon : <a href="https://icons.expo.fyi/">icons.expo.fyi</a>
-
-<br/>
+* Expo Icon : icons.expo.fyi

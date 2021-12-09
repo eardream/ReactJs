@@ -3,9 +3,8 @@
     "name": "movvies",
     "slug": "movvies",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
     "description": ""
   },
   "name": "movvies"

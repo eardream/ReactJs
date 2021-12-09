@@ -1,6 +1,7 @@
 import React from "react";
 import { useColorScheme } from "react-native";
 import styled from "styled-components/native";
+import colors from "../colors";
 import Poster from "./Poster";
 import Vote from "./Vote";
 
@@ -9,7 +10,7 @@ const Movie = styled.View`
 `;
 
 const Title = styled.Text<{ isDark: boolean }>`
-  color: ${(props) => (props.isDark ? "white" : props.theme.textColor)};
+  color: ${(props) => (props.isDark ? "white" : colors.blackPearl)};
   font-weight: 600;
   margin-top: 7px;
   margin-bottom: 5px;

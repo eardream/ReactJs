@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
-import { API_KEY } from "../apis";
+import { API_KEY } from "../api";
 import colors from "../colors";
 import HMedia from "../components/HMedia";
 import Slide from "../components/Slides";
@@ -43,64 +43,42 @@ const ComingSoonTitle = styled(ListTitle)`
   margin-bottom: 30px;
 `;
 
+const VSeparator = styled.View`
+  width: 20px;
+`;
+
+const HSeparator = styled.View`
+  height: 20px;
+`;
+
 const Movies = () => {
   const [refreshing, setRefreshing] = useState(false);
   const isDark = useColorScheme() === "dark";
-  const [loading, setLoading] = useState(true);
-
-  const [nowPlaying, setNowPlaying] = useState([]);
-  const [upComing, setUpComing] = useState([]);
-  const [trending, setTrending] = useState([]);
-
-  // 트랜딩 가져오기
-  const getTrending = async () => {
-    const { results } = await (
-      await fetch(
-        `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`
-      )
-    ).json();
-    setTrending(results);
-  };
-
-  // 개봉 예정작 가져오기
-  const getUpcoming = async () => {
-    const { results } = await (
-      await fetch(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=ko-KR&page=1&region=KR`
-      )
-    ).json();
-    setUpComing(results);
-  };
-
-  // 현재 상영 중인 영화
-  const getNowPlaying = async () => {
-    const { results } = await (
-      await fetch(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=ko-KR&page=1&region=KR`
-      )
-    ).json();
-    setNowPlaying(results);
-    setLoading(false);
-  };
-
-  const getData = async () => {
-    await Promise.all([getTrending(), getUpcoming(), getNowPlaying()]);
-    console.log(`Trend : ${trending}`);
-    console.log(`upComing : ${upComing}`);
-    console.log(`nowPlaying : ${nowPlaying}`);
-
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   const onRefresh = async () => {
-    setRefreshing(true);
-    await getData();
-    setRefreshing(false);
+    // setRefreshing(true);
+    // await getData();
+    // setRefreshing(false);
   };
+
+  const renderVMedia = ({ item }) => (
+    <VMedia
+      posterPath={item.poster_path}
+      originalTitle={item.original_title}
+      voteAverage={item.vote_average}
+    />
+  );
+
+  const renderHMedia = ({ item }) => (
+    <HMedia
+      posterPath={item.poster_path}
+      originalTitle={item.original_title}
+      releaseDate={item.release_date}
+      overview={item.overview}
+    />
+  );
+
+  const moviewKeyExtractor = (item) => item.id + "";
 
   return loading ? (
     <Loader>
@@ -112,8 +90,8 @@ const Movies = () => {
       refreshing={refreshing}
       data={upComing}
       style={{ marginBottom: 50 }}
-      keyExtractor={(item) => item.id + ""}
-      ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
+      keyExtractor={moviewKeyExtractor}
+      ItemSeparatorComponent={HSeparator}
       ListHeaderComponent={
         <>
           <Swiper
@@ -145,29 +123,16 @@ const Movies = () => {
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{ paddingHorizontal: 40 }}
-              ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-              keyExtractor={(item) => item.id + ""}
+              ItemSeparatorComponent={VSeparator}
+              keyExtractor={moviewKeyExtractor}
               data={trending}
-              renderItem={({ item }) => (
-                <VMedia
-                  posterPath={item.poster_path}
-                  originalTitle={item.original_title}
-                  voteAverage={item.vote_average}
-                />
-              )}
+              renderItem={renderVMedia}
             />
           </ListContainer>
           <ComingSoonTitle>Coming soon</ComingSoonTitle>
         </>
       }
-      renderItem={({ item }) => (
-        <HMedia
-          posterPath={item.poster_path}
-          originalTitle={item.original_title}
-          releaseDate={item.release_date}
-          overview={item.overview}
-        />
-      )}
+      renderItem={renderHMedia}
     />
   );
 };
