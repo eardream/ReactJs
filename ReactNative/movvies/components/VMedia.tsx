@@ -1,5 +1,7 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useColorScheme } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import colors from "../colors";
 import Poster from "./Poster";
@@ -27,17 +29,27 @@ const VMedia: React.FC<VMediaProps> = ({
   originalTitle,
   voteAverage,
 }) => {
+  const navigation = useNavigation();
   const isDark = useColorScheme() === "dark";
 
+  const goToDetail = () => {
+    navigation.navigate("Stack", { screen: "Detail" });
+  };
+
   return (
-    <Movie>
-      <Poster path={posterPath} />
-      <Title isDark={isDark}>
-        {originalTitle.slice(0, 11)}
-        {originalTitle.length > 11 ? "..." : null}
-      </Title>
-      <Vote average={voteAverage} />
-    </Movie>
+    <TouchableOpacity onPress={goToDetail}>
+      <Movie>
+        <Poster path={posterPath} />
+        <Title isDark={isDark}>
+          {originalTitle
+            ? `${originalTitle.slice(0, 11)}${
+                originalTitle.length > 11 ? "..." : ""
+              }`
+            : null}
+        </Title>
+        <Vote average={voteAverage} />
+      </Movie>
+    </TouchableOpacity>
   );
 };
 

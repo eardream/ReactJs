@@ -4,10 +4,8 @@ import { useColorScheme } from "react-native";
 
 const Score = styled.Text<{ isDark: boolean }>`
   color: ${(props) => (props.isDark ? "white" : props.theme.textColor)};
-  margin-top: 5px;
   font-size: 10px;
   font-weight: 600;
-  margin-top: 10px;
 `;
 
 interface VoteProps {

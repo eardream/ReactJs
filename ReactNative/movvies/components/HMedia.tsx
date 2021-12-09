@@ -1,5 +1,7 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useColorScheme } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import Poster from "./Poster";
 
@@ -47,29 +49,35 @@ const HMedia: React.FC<HMediaProp> = ({
   overview,
   voteAverage,
 }) => {
-  const isDark = useColorScheme() === "dark";
+const navigation = useNavigation();
+const isDark = useColorScheme() === "dark";
 
+const goToDetail = () => {
+  navigation.navigate("Stack", { screen: "Detail" });
+};
   return (
-    <HMovie>
-      <Poster path={posterPath} />
-      <HColumn>
-        <Title>{originalTitle}</Title>
-        {releaseDate ? (
-          <Release isDark={isDark}>
-            {new Date(releaseDate).toLocaleDateString("ko", {
-              year: "numeric",
-              month: "narrow",
-              day: "numeric",
-            })}
-          </Release>
-        ) : null}
-        <Overview isDark={isDark}>
-          {overview != "" && overview.length > 80
-            ? `${overview.slice(0, 80)}...`
-            : overview}
-        </Overview>
-      </HColumn>
-    </HMovie>
+    <TouchableOpacity onPress={goToDetail}>
+      <HMovie>
+        <Poster path={posterPath} />
+        <HColumn>
+          <Title>{originalTitle}</Title>
+          {releaseDate ? (
+            <Release isDark={isDark}>
+              {new Date(releaseDate).toLocaleDateString("ko", {
+                year: "numeric",
+                month: "narrow",
+                day: "numeric",
+              })}
+            </Release>
+          ) : null}
+          <Overview isDark={isDark}>
+            {overview != "" && overview.length > 80
+              ? `${overview.slice(0, 80)}...`
+              : overview}
+          </Overview>
+        </HColumn>
+      </HMovie>
+    </TouchableOpacity>
   );
 };
 
