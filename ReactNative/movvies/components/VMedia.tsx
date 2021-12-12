@@ -1,18 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { useColorScheme } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components/native";
-import colors from "../colors";
+import { Movie, TV } from "../api";
 import Poster from "./Poster";
 import Vote from "./Vote";
 
-const Movie = styled.View`
+const Container = styled.View`
   align-items: center;
 `;
 
-const Title = styled.Text<{ isDark: boolean }>`
-  color: ${(props) => (props.isDark ? "white" : colors.blackPearl)};
+const Title = styled.Text`
+  color: ${(props) => props.theme.textColor};
   font-weight: 600;
   margin-top: 7px;
   margin-bottom: 5px;
@@ -22,25 +21,31 @@ interface VMediaProps {
   posterPath: string;
   originalTitle: string;
   voteAverage: number;
+  fullData: Movie | TV
 }
 
 const VMedia: React.FC<VMediaProps> = ({
   posterPath,
   originalTitle,
   voteAverage,
+  fullData,
 }) => {
   const navigation = useNavigation();
-  const isDark = useColorScheme() === "dark";
 
   const goToDetail = () => {
-    navigation.navigate("Stack", { screen: "Detail" });
+    navigation.navigate("Stack", {
+      screen: "Detail",
+      params: {
+        ...fullData,
+      },
+    });
   };
 
   return (
     <TouchableOpacity onPress={goToDetail}>
-      <Movie>
+      <Container>
         <Poster path={posterPath} />
-        <Title isDark={isDark}>
+        <Title>
           {originalTitle
             ? `${originalTitle.slice(0, 11)}${
                 originalTitle.length > 11 ? "..." : ""
@@ -48,7 +53,7 @@ const VMedia: React.FC<VMediaProps> = ({
             : null}
         </Title>
         <Vote average={voteAverage} />
-      </Movie>
+      </Container>
     </TouchableOpacity>
   );
 };

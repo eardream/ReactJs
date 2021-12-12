@@ -1,3 +1,5 @@
+import { QueryFunction } from "react-query";
+
 const API_KEY = "32aeb718cb3b0849894778b48d34fca0";
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -18,6 +20,23 @@ export interface Movie {
   vote_average: number;
 }
 
+export interface TV {
+  name: string;
+  original_name: string;
+  origin_country: string[];
+  vote_count: number;
+  backdrop_path: string | null;
+  vote_average: number;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  overview: string;
+  poster_path: string | null;
+  first_air_date: string;
+  popularity: number;
+  media_type: string;
+}
+
 interface BaseResponse {
   page: number;
   total_results: number;
@@ -25,7 +44,15 @@ interface BaseResponse {
 }
 
 export interface MovieResponse extends BaseResponse {
-  result: Movie[];
+  results: Movie[];
+}
+
+export interface TVResponse extends BaseResponse {
+  results: TV[];
+}
+
+interface Fetchers<T> {
+  [key: string]: QueryFunction<T>;
 }
 
 export const moviesApi = {
@@ -50,6 +77,12 @@ export const moviesApi = {
       `${BASE_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&page=1&query=${query}`
     ).then((res) => res.json());
   },
+  detail: ({ queryKey }) => {
+    const [_, id] = queryKey;
+    return fetch(
+      `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=ko-KR&append_to_response=videos,images`
+    ).then((res) => res.json());
+  },
 };
 
 export const tvApi = {
@@ -69,6 +102,12 @@ export const tvApi = {
     const [_, query] = queryKey;
     return fetch(
       `${BASE_URL}/search/tv?api_key=${API_KEY}&language=ko-KR&page=1&query=${query}`
+    ).then((res) => res.json());
+  },
+  detail: ({ queryKey }) => {
+    const [_, id] = queryKey;
+    return fetch(
+      `${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=ko-KR&append_to_response=videos,images`
     ).then((res) => res.json());
   },
 };

@@ -1,3 +1,4 @@
+import { Dimensions } from "react-native";
 import colors from "./colors";
 
 export const lightTheme = {
@@ -11,3 +12,5 @@ export const darkTheme = {
   reverseBgColor: colors.white,
   textColor: colors.inactiveDark,
 };
+
+export const { height: SCREEN_HEIGHT } = Dimensions.get("window");

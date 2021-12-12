@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, useColorScheme, View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import { useQuery } from "react-query";
 import styled from "styled-components/native";
 import { moviesApi, tvApi } from "../api";
@@ -24,10 +24,10 @@ const SearchBar = styled.TextInput<{ isDark: boolean }>`
   margin-bottom: 40px;
 `;
 
-const NoResult = styled.Text<{ isDark: boolean }>`
+const NoResult = styled.Text`
   font-size: 18px;
   margin-top: 100px;
-  color: ${(props) => (props.isDark ? "white" : props.theme.textColor)};
+  color: ${(props) => props.theme.textColor};
 `;
 
 const Search = () => {
@@ -55,7 +55,7 @@ const Search = () => {
   const onChangeText = (text: string) => setQuery(text);
 
   const NoResultText = () => (
-    <NoResult isDark={isDark}>결과가 없어요 😥</NoResult>
+    <NoResult>결과가 없어요 😥</NoResult>
   );
 
   return (

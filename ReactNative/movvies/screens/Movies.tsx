@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
-import { Dimensions, FlatList, useColorScheme } from "react-native";
+import { Dimensions, FlatList } from "react-native";
 import Swiper from "react-native-swiper";
 import { useQuery, useQueryClient } from "react-query";
 import styled from "styled-components/native";
@@ -9,28 +9,31 @@ import HMedia from "../components/HMedia";
 import Loader from "../components/Loader";
 import Slide from "../components/Slides";
 import TvList from "../components/TVList";
-import VMedia from "../components/VMedia";
+import { SCREEN_HEIGHT } from "../styled";
 
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
-
-const ListTitle = styled.Text<{ isDark: boolean }>`
-  color: ${(props) => (props.isDark ? "white" : props.theme.textColor)};
-  font-size: 16px;
+const ListTitle = styled.Text`
+  color: ${(props) => props.theme.textColor};
+  font-size: 18px;
   font-weight: 600;
   margin-left: 30px;
 `;
 
-const ComingSoonTitle = styled(ListTitle)`
-  margin-bottom: 30px;
+const ListContainer = styled.View`
+  margin-bottom: 40px;
 `;
 
+const ComingSoonTitle = styled(ListTitle)`
+  margin-bottom: 20px;
+`;
+
+const VSeparator = styled.View`
+  width: 20px;
+`;
 const HSeparator = styled.View`
   height: 20px;
 `;
 
 const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
-  const isDark = useColorScheme() === "dark";
-
   const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false);
 
@@ -68,14 +71,15 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
         <>
           <Swiper
             horizontal
-            autoplay={true}
+            loop
+            autoplay
             autoplayTimeout={3.5}
             showsButtons={false}
             showsPagination={false}
             containerStyle={{
+              marginBottom: 40,
               width: "100%",
               height: SCREEN_HEIGHT / 4,
-              marginBottom: 30,
             }}
           >
             {nowPlayingData?.results.map((movie) => (
@@ -86,13 +90,14 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
                 originalTitle={movie.original_title}
                 voteAverage={movie.vote_average}
                 overview={movie.overview}
+                fullData={movie}
               />
             ))}
           </Swiper>
           {trendingData ? (
             <TvList title="Trending Movies" data={trendingData.results} />
           ) : null}
-          <ComingSoonTitle isDark={isDark}>Coming soon</ComingSoonTitle>
+          <ComingSoonTitle>Coming soon</ComingSoonTitle>
         </>
       }
       renderItem={({ item }) => (
@@ -101,6 +106,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
           originalTitle={item.original_title}
           releaseDate={item.release_date}
           overview={item.overview}
+          fullData={item}
         />
       )}
     />

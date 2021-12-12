@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { RefreshControl } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { RefreshControl, ScrollView } from "react-native";
 import { useQuery, useQueryClient } from "react-query";
 import { tvApi } from "../api";
 import Loader from "../components/Loader";
@@ -28,7 +27,7 @@ const Tv = () => {
     await queryClient.refetchQueries(["tv"]);
     setRefreshing(false);
   };
-  
+
   const loading = todayLoading || topLoading || trendingLoading;
 
   if (loading) {
