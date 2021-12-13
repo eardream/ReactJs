@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useColorScheme, View } from "react-native";
-import { useQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import styled from "styled-components/native";
 import { moviesApi, tvApi } from "../api";
 import colors from "../colors";
@@ -37,12 +37,28 @@ const Search = () => {
     isLoading: movieLoading,
     data: movieData,
     refetch: searchMovies,
-  } = useQuery(["searchMovies", query], moviesApi.search, { enabled: false });
+    hasNextPage: hasNextMoviesPages,
+    fetchNextPage: fetchMoviesNextPage,
+  } = useInfiniteQuery(["searchMovies", query], moviesApi.search, {
+    enabled: false,
+    getNextPageParam: (current) => {
+      const nextPage = current.page + 1;
+      return nextPage > current.total_page ? null : nextPage;
+    },
+  });
   const {
     isLoading: tvLoading,
     data: tvData,
     refetch: searchTv,
-  } = useQuery(["searchTv", query], tvApi.search, { enabled: false });
+    hasNextPage: hasNextTvPages,
+    fetchNextPage: fetchTvNextPage,
+  } = useInfiniteQuery(["searchTv", query], tvApi.search, {
+    enabled: false,
+    getNextPageParam: (current) => {
+      const nextPage = current.page + 1;
+      return nextPage > current.total_page ? null : nextPage;
+    },
+  });
 
   const onSubmit = () => {
     if (query === "") {
@@ -54,9 +70,7 @@ const Search = () => {
 
   const onChangeText = (text: string) => setQuery(text);
 
-  const NoResultText = () => (
-    <NoResult>결과가 없어요 😥</NoResult>
-  );
+  const NoResultText = () => <NoResult>결과가 없어요 😥</NoResult>;
 
   return (
     <Container>
@@ -73,9 +87,21 @@ const Search = () => {
       <Scroll>
         {movieLoading || tvLoading ? <Loader /> : null}
         {movieData ? (
-          <TvList title="Movie Results" data={movieData.results} />
+          <TvList
+            title="Movie Results"
+            data={movieData.pages.map((page) => page.results).flat()}
+            hasNextPage={hasNextMoviesPages}
+            fetchNextPage={fetchMoviesNextPage}
+          />
         ) : null}
-        {tvData ? <TvList title="Tv Results" data={tvData.results} /> : null}
+        {tvData ? (
+          <TvList
+            title="Tv Results"
+            data={tvData.pages.map((page) => page.results).flat()}
+            hasNextPage={hasNextTvPages}
+            fetchNextPage={fetchTvNextPage}
+          />
+        ) : null}
         {!movieData && !tvData ? (
           <View
             style={{ justifyContent: "center", alignItems: "center", flex: 1 }}

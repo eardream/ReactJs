@@ -4,8 +4,13 @@
     "slug": "movvies",
     "version": "1.0.0",
     "userInterfaceStyle": "automatic",
-    "assetBundlePatterns": ["**/*"],
-    "description": ""
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "description": "",
+    "ios": {
+      "bundleIdentifier": "com.hanix.movvies"
+    }
   },
   "name": "movvies"
 }

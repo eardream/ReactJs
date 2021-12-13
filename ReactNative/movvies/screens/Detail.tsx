@@ -1,8 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
+import * as WebBrowser from "expo-web-browser";
 import React, { useEffect } from "react";
-import { Linking, StyleSheet, useColorScheme } from "react-native";
+import {
+  Alert,
+  Linking,
+  Platform,
+  Share,
+  StyleSheet,
+  useColorScheme,
+} from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useQuery } from "react-query";
 import styled from "styled-components/native";
 import { Movie, moviesApi, TV, tvApi } from "../api";
@@ -11,7 +20,6 @@ import Loader from "../components/Loader";
 import Poster from "../components/Poster";
 import { SCREEN_HEIGHT } from "../styled";
 import { makeImgPath } from "../utils";
-import * as WebBrowser from "expo-web-browser";
 
 const Container = styled.ScrollView`
   background-color: ${(props) => props.theme.mainBgColor};
@@ -70,18 +78,54 @@ const Detail: React.FC<DetailScreenProps> = ({
   route: { params },
 }) => {
   const isDark = useColorScheme() === "dark";
-
   const isMovie = "original_title" in params;
-
+  const isAndroid = Platform.OS === "android";
   const { isLoading, data } = useQuery(
     [isMovie ? "movies" : "tv", params.id],
     isMovie ? moviesApi.detail : tvApi.detail
   );
 
+  const shareMedia = async () => {
+    const homepage = isMovie
+      ? `https://www.imdb.com/title/${data.imdb_id}/`
+      : data.homepage;
+    if (isAndroid) {
+      await Share.share({
+        message: `${params.overview}\nCheck it out: ${homepage}`,
+        title:
+          "original_title" in params
+            ? params.original_title
+            : params.original_name,
+      });
+    } else {
+      await Share.share({
+        url: homepage,
+        title:
+          "original_title" in params
+            ? params.original_title
+            : params.original_name,
+      });
+    }
+  };
+
+  const ShareButton = () => (
+    <TouchableOpacity onPress={shareMedia}>
+      <Ionicons
+        name="share-outline"
+        color={isDark ? "white" : "dark"}
+        size={24}
+      />
+    </TouchableOpacity>
+  );
+
   const openYTLink = async (videoId: string) => {
     const baseUrl = `http://m.youtube.com/watch?v=${videoId}`;
-    // await Linking.openURL(baseUrl); //  intent Web
-    await WebBrowser.openBrowserAsync(baseUrl);
+    if (!isAndroid) await WebBrowser.openBrowserAsync(baseUrl);
+    else {
+      if (await Linking.canOpenURL(baseUrl)) await Linking.openURL(baseUrl);
+      //  intent Web
+      else Alert.alert("", "Can't open Link :(");
+    }
   };
 
   useEffect(() => {
@@ -89,6 +133,15 @@ const Detail: React.FC<DetailScreenProps> = ({
       title: "original_title" in params ? "Movie" : "Tv", // title 변경
     });
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      // data 가 있을 때에만
+      setOptions({
+        headerRight: () => <ShareButton />, // data ㄱㅏ 로드되지 않은 상태에서 header 에 param 을 보내지 않아 오류 발생
+      });
+    }
+  }, [data]);
 
   return (
     <Container overScrollMode="never">
@@ -127,7 +180,5 @@ const Detail: React.FC<DetailScreenProps> = ({
     </Container>
   );
 };
-
-
 
 export default Detail;

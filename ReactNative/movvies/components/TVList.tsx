@@ -24,16 +24,31 @@ const ListContainer = styled.View`
 interface HListProps {
   title: string;
   data: any[];
+  hasNextPage: any;
+  fetchNextPage?: any;
 }
 
-const TvList: React.FC<HListProps> = ({ title, data }) => {
+const TvList: React.FC<HListProps> = ({
+  title,
+  data,
+  hasNextPage,
+  fetchNextPage,
+}) => {
   const isDark = useColorScheme() === "dark";
+
+  const loadMore = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
 
   return (
     <ListContainer>
       <ListTitle>{title}</ListTitle>
       <FlatList
         horizontal
+        onEndReached={fetchNextPage ? loadMore : null}
+        onEndReachedThreshold={0.3}
         keyExtractor={(item: Movie | TV) => item.id + ""}
         showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={HListSeparator}

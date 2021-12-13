@@ -1,8 +1,8 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
-import { Dimensions, FlatList } from "react-native";
+import { Alert, Dimensions, FlatList } from "react-native";
 import Swiper from "react-native-swiper";
-import { useQuery, useQueryClient } from "react-query";
+import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components/native";
 import { MovieResponse, moviesApi } from "../api";
 import HMedia from "../components/HMedia";
@@ -40,13 +40,40 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
   // useQueries
   const { isLoading: nowPlayingLoading, data: nowPlayingData } =
     useQuery<MovieResponse>(["movies", "nowPlaying"], moviesApi.nowPlaying);
-  const { isLoading: upcomingLoading, data: upcomingData } =
-    useQuery<MovieResponse>(["movies", "upcoming"], moviesApi.upcoming);
-  const { isLoading: trendingLoading, data: trendingData } =
-    useQuery<MovieResponse>(["movies", "trending"], moviesApi.trending);
+  const {
+    isLoading: upcomingLoading,
+    data: upcomingData,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery(["movies", "upcoming"], moviesApi.upcoming, {
+    getNextPageParam: (currentPage) => {
+      const nextPage = currentPage.page + 1;
+      return nextPage > currentPage.total_pages ? null : nextPage; // 페이지 수 비교
+    },
+  });
+  const {
+    isLoading: trendingLoading,
+    data: trendingData,
+    hasNextPage: trendingHasNextPage,
+    fetchNextPage: trendingFetchNextPage,
+  } = useInfiniteQuery<MovieResponse>(
+    ["movies", "trending"],
+    moviesApi.trending,
+    {
+      getNextPageParam: (currentPage) => {
+        const nextPage = currentPage.page + 1;
+        return nextPage > currentPage.total_pages ? null : nextPage; // 페이지 수 비교
+      },
+    }
+  );
 
   // loading 과 refresh 변수 초기화
   const loading = nowPlayingLoading || upcomingLoading || trendingLoading;
+  const loadMore = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
 
   // refresh function
   const onRefresh = async () => {
@@ -63,7 +90,8 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
       overScrollMode={"never"}
       onRefresh={onRefresh}
       refreshing={refreshing}
-      data={upcomingData?.results}
+      onEndReached={loadMore}
+      data={upcomingData.pages.map((page) => page.results).flat()}
       style={{ marginBottom: 70 }}
       keyExtractor={(item) => item.id + ""}
       ItemSeparatorComponent={HSeparator}
@@ -82,7 +110,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
               height: SCREEN_HEIGHT / 4,
             }}
           >
-            {nowPlayingData?.results.map((movie) => (
+            {nowPlayingData?.results.map((movie) => ( 
               <Slide
                 key={movie.id}
                 backdropPath={movie.backdrop_path || ""}
@@ -95,7 +123,12 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
             ))}
           </Swiper>
           {trendingData ? (
-            <TvList title="Trending Movies" data={trendingData.results} />
+            <TvList
+              title="Trending Movies"
+              data={trendingData.pages.map((page) => page.results).flat()}
+              hasNextPage={trendingData}
+              fetchNextPage={trendingFetchNextPage}
+            />
           ) : null}
           <ComingSoonTitle>Coming soon</ComingSoonTitle>
         </>
