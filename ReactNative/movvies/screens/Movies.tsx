@@ -87,10 +87,10 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
     <Loader />
   ) : upcomingData ? (
     <FlatList
-      overScrollMode={"never"}
+      onEndReached={loadMore}
       onRefresh={onRefresh}
       refreshing={refreshing}
-      onEndReached={loadMore}
+      overScrollMode={"never"}
       data={upcomingData.pages.map((page) => page.results).flat()}
       style={{ marginBottom: 70 }}
       keyExtractor={(item) => item.id + ""}
@@ -110,7 +110,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
               height: SCREEN_HEIGHT / 4,
             }}
           >
-            {nowPlayingData?.results.map((movie) => ( 
+            {nowPlayingData?.results.map((movie) => (
               <Slide
                 key={movie.id}
                 backdropPath={movie.backdrop_path || ""}
@@ -126,7 +126,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
             <TvList
               title="Trending Movies"
               data={trendingData.pages.map((page) => page.results).flat()}
-              hasNextPage={trendingData}
+              hasNextPage={trendingHasNextPage}
               fetchNextPage={trendingFetchNextPage}
             />
           ) : null}
