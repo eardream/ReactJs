@@ -35,6 +35,7 @@ export default function App() {
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
+      // 터치 중에 시작
       onPanResponderMove: (_, { dx, dy }) => {
         // position 의 위치를 변경해 드래그가 되게 한다.
         POSITION.setValue({
@@ -42,19 +43,21 @@ export default function App() {
           y: dy,
         });
       },
-      onPanResponderRelease: (_, {}) => {
-        Animated.spring(POSITION, {
-          toValue: {
-            x: 0,
-            y: 0,
-          },
-          useNativeDriver: false,
-          bounciness: 30,
-        }).start();
+      // 터치가 끝났을 때 시작
+      onPanResponderRelease: () => {
+        // offset 을 전달하면서 이후에는 0으로 초기화
+        POSITION.flattenOffset();
+      },
+      // 터치가 시작될 때 시작
+      onPanResponderGrant: () => {
+        // 사용자 손가락 위치를 0으로 초기화되지 않게 하기 위함
+        POSITION.setOffset({
+          x: POSITION.x._value,
+          y: POSITION.y._value,
+        });
       },
     })
   ).current;
-
 
   return (
     <Container>
