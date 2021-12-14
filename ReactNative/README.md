@@ -24,8 +24,7 @@ https://nomadcoders.co/react-native-for-beginners
 * npm install 이 안 될 경우 `--save --legacy-peer-deps` 를 명령문 뒤에 붙여서 설치
 
 * `Pod Min Target 이 안 맞을 경우에는 pod 라이브러리 확인 후 ios 폴더 내부에서 pod update && pod install`
-
-
+<br />
 
 ### ⚠️ `Layout Caution`
 
@@ -40,15 +39,62 @@ https://nomadcoders.co/react-native-for-beginners
 <View style={{ flex: 1, backgroundColor: "orange"}}></View>
 </View>
 ```
-
-
+<br />
 
 ### 🚨 `Alert`
 
 * 유저에게 기본 알림 UI 를 보일 수 있다.
 * OS 내부의 AlertDialog 가 동작하게 되며 Button[] 을 넘길 수 있다.
 * Button -> `onPress` 를 사용해 함수를 넘길 수 있다.
+<br />
 
+### 🤣 `Animation`
+
+* Rules of Animation
+	* Animation 에 대한 value 값은 state 에서 지정할 수 없다.
+	* value 는 직접 수정할 수 없다.
+	* `Animatable Component` 안에서만 animation 동작이 가능하다
+
+* Animation 의 종류	 
+	* Decay -> 시작속도 ⬆️ 종료속도 ⬇️
+	* Spring -> Bouncy
+	* `Timing` -> 가장 보편적으로 사용됨, easing 을 사용해 다양한 옵션 설정 가능
+	* Interpolation -> value 값이 변화함에 따라 해당 옵션을 변경할 수 있다.
+```js
+const position = 
+    useRef(new Animated.ValueXY({ x: 0, y: 300 })).current;
+
+  const moveUp = () => {
+    Animated.timing(position.y, {
+      toValue: up ? 300 : -300,
+      useNativeDriver: true,
+      
+      duration: 1000,
+    }).start(toggleUp);
+  };
+
+  // y 값의 변경에 따라 box 의 style value를 interpolate 를 사용해 조절
+  const borderRadius = position.y.interpolate({
+    inputRange: [-300, 300],
+    outputRange: [100, 10],
+  });
+
+  const rotation = position.y.interpolate({
+    inputRange: [-300, 300],
+    outputRange: ["-360deg", "360deg"],
+  });
+
+// interpolation 사용법
+style={{
+    borderRadius: borderRadius,
+    transform: [
+        { rotateZ: rotation }, 
+        { translateY: position.y }
+    ],
+}}
+
+```
+<br />
 
 
 ### 💾 기기에 저장할 수 있는 `AsyncStorage`
@@ -56,21 +102,15 @@ https://nomadcoders.co/react-native-for-beginners
 * AsyncStorage 를 사용해 기기 내부 저장소에 원하는 데이터를 저장할 수 있다
 * Preference 와 같은 동작이며 파일명을 명시해 줘야 함
 * 기기 용량이 얼마나 남아있고 어떻게 callback 이 올지 모르기 때문에 `async-await` 사용 필수
-
-
+<br />
 
 ### 🌠 `Asset Drawable`
 
 * Icons
 	* Library 설치후 Component 추가하면 됨
 * Fonts
-
 ```javascript
 Font.useFont(Ionicons.font);
-```
-
-```
-- 위의 방식처럼 가져오면 됨
 ```
 
 * Images
@@ -83,35 +123,31 @@ useAsset(require(/*path*/));
 ```
 Image.prefetch(imageUrl);
 ```
-
-
+<br />
 
 ### 🌫 `BlurView`
-
 * View 를 blur 처리 할 수 있다.
 * ❗️ 단 블러를 주고 싶지 않은 영역은 BlurView 내부에 작성해야 한다.
-
-
+<br />
 
 ### 🖱 `Click Event`
 
 * TouchableOpacity
 	* 해당 Component 가 클릭될 때 투명도를 이용해 클릭 여부를 유저가 알 수 있다.
 	* 가장 많이 쓰이는 touch event
-
+<br />
 * TouchableHighlight
 	* Component 의 배경색을 이용해 클릭의 범위를 알 수 있다.
-
+<br />
 * TouchableWithoutFeedback
 	* UI Event 없이 동작한다.
 	* UI 가 변경되지 않는 것을 원하는 경우 해당 Component 사용
-
+<br />
 * Pressable
 	* 2021.12 월 기준 비교적 최신에 만들어진 Click Event
 	* 설정할 수 있는 event 가 많음 (LongPress, disabled)
 	* `hitSlop` -> 터치 영역을 바깥쪽으로 더 넓힘
-
-
+<br />
 
 ### 📺 `Component`
 
@@ -123,8 +159,7 @@ Image.prefetch(imageUrl);
 	* EditText 와 같음
 	* 키보드 제약을 걸 수 있음
 	* RN 에서 유저가 입력을 할 수 있는 유일한 Component
-
-
+<br />
 
 ### 🌓 `DarkMode`
 
@@ -133,13 +168,79 @@ Image.prefetch(imageUrl);
 
 ```javascript
 const isDarkMode = useColorScheme() === "dark";
-```
 
+```
+<br />
 
 
 ### 📄 `Drawer Navigation`
 * 안드로이드 내부의 Menu 와 동일함
 * 제스쳐를 사용할 수 있고 transition 이 가능함
+<br />
+
+### 🔗 `Linking`  And `WebBrowser`
+* RN 에서 웹 페이지를 열 수 있다.
+* Linking 은 딥링크로도 앱을 열수 있고 canOpenURL 로 확인 후 열 수 있음
+* WebBrowser 는 Android 에서 잘 먹지 않음
+
+```js
+const baseUrl = `https://hanix-x.tistory.com`;
+
+// linking
+if(await Linking.canOpenURL(baseUrl))
+	await Linking.openURL(baseUrl);
+
+// webbrowser
+await WebBrowser.openBrowserAsync(baseUrl);
+```
+<br />
+
+### ∞ `Infinite Scroll`
+
+* 무한 스크롤은 작성을 해줘야 하는 것이 많다.
+* `useInfiniteQuery `  사용 
+```javascript
+ const {
+    isLoading,
+    data,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery(
+    ["topic", "token"],
+    api.getData,
+    {
+      getNextPageParam: (currentPage) => {	// 다음 페이지부터 파라미터 추가
+        const nextPage = currentPage.page + 1;
+        return nextPage > currentPage.total_pages ? 
+                null : nextPage; // 페이지 수 비교
+      },
+    }
+  );
+
+// 호출 시 콜 할 함수
+const loadMore = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
+
+// 호출 시
+<FlatList
+    onEndReached={loadMore}
+// 중첩 배열이기 때문에 아래의 방식을 사용해 단일 배열로 만들어야 함
+	data={upcomingData.pages.map((page) => page.results).flat()}
+ ... />
+
+```
+<br />
+
+### 🤞 `PanResponder` - <a href="https://reactnative.dev/docs/panresponder"> 공식문서 </a>
+
+* 터치 리스너 등을 선언할 수 있다.
+* useRef() 와 함께 선언
+
+<br />
 
 
 
@@ -167,7 +268,7 @@ if (ready) {
         onError={console.error}/>
 }
 ```
-
+<br />
 
 
 ### 📜 `ScrollView` and `FlatList`
@@ -200,6 +301,7 @@ if (ready) {
 ```
 
 ```html
+// Flat List 작성법
 <FlatList
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -210,7 +312,7 @@ if (ready) {
               renderItem={renderVMedia}		// 이 부분에 하위에 랜더링하고 싶은 아이템을 작성한다.
             />
 ```
-
+<br />
 
 
 ### 💅 `Styled Component`
@@ -220,17 +322,17 @@ if (ready) {
 * 첫 철자는 대문자로 작성해야 한다.
 
 * View, Text, Image... 등등 선언해야 할 것을 생략해 준다.
+<br />
 
 
-
-### 👌 `Swipe` - 공식문서
+### 👌 `Swipe` - <a href="https://github.com/leecade/react-native-swiper">공식문서</a>
 
 * Web 버전과 native 버전으로 나뉜다
 
 * 안드로이드의 ViewPager 와 방식이 비슷하다.
 
 * Paginate, Button 컨트롤 등등이 가능하다.
-
+<br />
 
 
 ### 📚 `Stack Navigator`
@@ -260,12 +362,12 @@ if (ready) {
       
         <NativeStack.Screen name="One" component={ScreenOne}/>
         <NativeStack.Screen name="Two" component={ScreenTwo}/>
-        <NativeStack.Screen name="Three" component={ScreenThree} options={{presentation : "modal"}}/>
+        <NativeStack.Screen name="Three" component={ScreenThree} 
+                options={{presentation : "modal"}}/>
     </NativeStack.Navigator>
     );
 ```
-
-
+<br />
 
 ### 🧭 `TabLayout`
 
@@ -296,7 +398,8 @@ const Tabs = () => (
             options={{
                 headerTitleStyle: {color: "tomato"},
                 tabBarIcon: ({focused, color, size}) =>
-                    (<Ionicons name={focused ? "film" : "film-outline"} size={size} color={color}/>),
+                    (<Ionicons name={focused ? "film" : "film-outline"} 
+                        size={size} color={color}/>),
                 headerRight: () =>
                     <View>
                         <Text>Hello</Text>
@@ -306,11 +409,13 @@ const Tabs = () => (
 
         <Tab.Screen name="TV" component={Tv} options={{
             tabBarIcon: ({focused, color, size}) => (
-                <Ionicons name={focused ? "ios-tv" : "ios-tv-outline"} size={size} color={color}/>)
+                <Ionicons name={focused ? "ios-tv" : "ios-tv-outline"} 
+                    size={size} color={color}/>)
         }}/>
         <Tab.Screen name="Search" component={Search} options={{
             tabBarIcon: ({focused, color, size}) => (
-                <Ionicons name={focused ? "search" : "search-outline"} size={size} color={color}/>)
+                <Ionicons name={focused ? "search" : "search-outline"} 
+                    size={size} color={color}/>)
         }}/>
     </Tab.Navigator>
 );
@@ -318,8 +423,7 @@ const Tabs = () => (
 export default Tabs;
 
 ```
-
-
+<br />
 
 ### ⚔️ `TabLayout` 과 `Stack Navigator` 사용 시 Header 및 화면 처리
 
@@ -333,7 +437,8 @@ const Nav = createNativeStackNavigator();
 
 const root = () => {
     return (
-        <Nav.Navigator screenOptions={{headerShown: false,}}>// header 지정 필요
+        // header 지정 필요
+        <Nav.Navigator screenOptions={{headerShown: false,}}>
             <Nav.Screen name="Tabs" component={Tabs}/>
             <Nav.Screen name="Stack" component={Stack}/>
         </Nav.Navigator>
@@ -348,12 +453,14 @@ export default root;
 ```js
 const ScreenThree = (
     {navigation: {navigate}}) => (      // navigate 참조 필요
-    <TouchableOpacity onPress={() => navigate("Tabs", {screen: "Search"})}>     // Stack 화면 내부이기 때문에 Tabs 의 Search 로 이동 
+    <TouchableOpacity onPress={() => 
+        // Stack 화면 내부이기 때문에 Tabs 의 Search 로 이동 
+        navigate("Tabs", {screen: "Search"})}>  
         <Text>Go to Tabs</Text>
     </TouchableOpacity>
 );
 ```
-
+<br />
 
 
 ### 🌗 `ThemeProvider`
@@ -381,16 +488,15 @@ const Btn = styled.TouchableOpacity`
   background-color: ${(props) => props.theme.mainBgColor};
 `;
 ```
-
-
+<br />
 
 ### `3️⃣rd Party Package` and `Api`
 
 * RN Sdk (오픈소스) : reactnative.directory
 * Expo Sdk :  docs.expo.dev
-
-
+<br />
 
 ### 🎬 `Others`
 
 * Expo Icon : icons.expo.fyi
+<br />

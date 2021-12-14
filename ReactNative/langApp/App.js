@@ -1,14 +1,8 @@
 import React, { useRef } from "react";
-import { Animated, Dimensions } from "react-native";
+import { Animated, Dimensions, PanResponder } from "react-native";
 import styled from "styled-components/native";
 
 const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Touchable = styled.Pressable`
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -19,78 +13,59 @@ const Box = styled.View`
   width: 200px;
   height: 200px;
 `;
-const AnimateBox = Animated.createAnimatedComponent(Box);
+const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 export default function App() {
-  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
-    Dimensions.get("window");
-
-  const position = useRef(
+  const POSITION = useRef(
     new Animated.ValueXY({
-      x: -SCREEN_WIDTH / 2 + 100,
-      y: -SCREEN_HEIGHT / 2 + 100,
+      x: 0,
+      y: 0,
+    })
+  ).current;
+  const borderRadius = POSITION.y.interpolate({
+    inputRange: [-300, 300],
+    outputRange: [100, 0],
+  });
+  const bgColor = POSITION.y.interpolate({
+    inputRange: [-300, 300],
+    outputRange: ["rgb(255, 99, 71)", "rgb(71, 166, 255)"],
+  });
+
+  // animation listener
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (_, { dx, dy }) => {
+        // position 의 위치를 변경해 드래그가 되게 한다.
+        POSITION.setValue({
+          x: dx,
+          y: dy,
+        });
+      },
+      onPanResponderRelease: (_, {}) => {
+        Animated.spring(POSITION, {
+          toValue: {
+            x: 0,
+            y: 0,
+          },
+          useNativeDriver: false,
+          bounciness: 30,
+        }).start();
+      },
     })
   ).current;
 
-  const moveUp = () => {
-    Animated.loop(
-      Animated.sequence([bottomLeft, bottomRight, topRight, topLeft])
-    ).start();
-  };
-
-  const topLeft = Animated.timing(position, {
-    toValue: {
-      x: -SCREEN_WIDTH / 2 + 100,
-      y: -SCREEN_HEIGHT / 2 + 100,
-    },
-    useNativeDriver: false,
-  });
-
-  const topRight = Animated.timing(position, {
-    toValue: {
-      x: SCREEN_WIDTH / 2 - 100,
-      y: -SCREEN_HEIGHT / 2 + 100,
-    },
-    useNativeDriver: false,
-  });
-
-  const bottomLeft = Animated.timing(position, {
-    toValue: {
-      x: -SCREEN_WIDTH / 2 + 100,
-      y: SCREEN_HEIGHT / 2 - 100,
-    },
-    useNativeDriver: false,
-  });
-
-  const bottomRight = Animated.timing(position, {
-    toValue: {
-      x: SCREEN_WIDTH / 2 - 100,
-      y: SCREEN_HEIGHT / 2 - 100,
-    },
-    useNativeDriver: false,
-  });
-
-  // y 값의 변경에 따라 box 의 style value를 interpolate 를 사용해 조절
-  const borderRadius = position.y.interpolate({
-    inputRange: [-300, 300],
-    outputRange: [100, 10],
-  });
-
-  const rotation = position.y.interpolate({
-    inputRange: [-300, 300],
-    outputRange: ["-360deg", "360deg"],
-  });
 
   return (
     <Container>
-      <Touchable onPress={moveUp}>
-        <AnimateBox
-          style={{
-            borderRadius: borderRadius,
-            transform: [...position.getTranslateTransform()],
-          }}
-        />
-      </Touchable>
+      <AnimatedBox
+        {...panResponder.panHandlers}
+        style={{
+          borderRadius,
+          backgroundColor: bgColor,
+          transform: POSITION.getTranslateTransform(),
+        }}
+      />
     </Container>
   );
 }
