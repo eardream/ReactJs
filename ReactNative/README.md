@@ -55,11 +55,17 @@ https://nomadcoders.co/react-native-for-beginners
 	* value 는 직접 수정할 수 없다.
 	* `Animatable Component` 안에서만 animation 동작이 가능하다
 
-* Animation 의 종류	 
+* Animation 의 종류
 	* Decay -> 시작속도 ⬆️ 종료속도 ⬇️
 	* Spring -> Bouncy
 	* `Timing` -> 가장 보편적으로 사용됨, easing 을 사용해 다양한 옵션 설정 가능
 	* Interpolation -> value 값이 변화함에 따라 해당 옵션을 변경할 수 있다.
+
+* Threshold 를 사용해서 애니메이션을 보다 더 빠르게 동작할 수 있다.
+    * restSpeedThreshold -> 애니메이션이 끝난 것으로 간주하는 속도
+    * restDisplacementThreshold -> 애니메이션이 끝난 것으로 간주하는 거리
+
+
 ```js
 const position = 
     useRef(new Animated.ValueXY({ x: 0, y: 300 })).current;

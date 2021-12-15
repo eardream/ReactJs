@@ -10,6 +10,7 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
     return (
         <Tab.Navigator
+            initialRouteName="Drag"
             sceneContainerStyle={{
                 backgroundColor: colors.white,
             }}
@@ -28,6 +29,7 @@ const Tabs = () => {
                     fontWeight: "600",
                 },
             }}>
+
             <Tab.Screen name="Card" component={Card} options={{
                 tabBarIcon: ({focused, color, size}) => (
                     <Ionicons
@@ -48,7 +50,6 @@ const Tabs = () => {
                 ),
             }}
             />
-
         </Tab.Navigator>
     )
 };
