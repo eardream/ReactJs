@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components/native";
 import colors from "../colors";
-import {Alert, Animated, Text} from "react-native";
+import {Alert, Platform} from "react-native";
+import {Ionicons} from "@expo/vector-icons";
+import {useDB} from "../context/context";
 
 const Container = styled.View`
   flex: 1;
@@ -9,9 +11,9 @@ const Container = styled.View`
   padding: 0px 30px;
 `;
 
-const Title = styled.Text`
+const Title = styled.Text<{ osType: string }>`
   color: ${colors.textColor};
-  margin: 50px 0px;
+  margin: ${props => props.osType === "android" ? "20px 0px" : "50px 0px"};
   text-align: center;
   font-size: 18px;
   font-weight: 500;
@@ -36,7 +38,7 @@ const Btn = styled.TouchableOpacity`
 `;
 
 const BtnText = styled.Text`
-  font-weight: 500;
+  font-weight: 600;
   font-size: 18px;
   color: white;
 `;
@@ -48,7 +50,7 @@ const Emotions = styled.View`
   justify-content: space-between;
 `;
 
-const Emotion = styled.TouchableOpacity<{isSelected: boolean}>`
+const Emotion = styled.TouchableOpacity<{ isSelected: boolean }>`
   background-color: ${props => props.isSelected ? colors.selected : colors.unSelected};
   border-radius: 10px;
   padding: 8px;
@@ -64,7 +66,14 @@ const EmotionText = styled.Text`
 
 const emotions = ["🙂", "🤗", "🤔", "😢", "🥰", "😡", "🤯"];
 
-const Write = () => {
+type WriteProps = {
+    navigation: any;
+}
+
+const Write: React.FC<WriteProps> = ({navigation: {goBack}}) => {
+    const osType = Platform.OS;
+
+    const realm = useDB()
     const [selectedEmotion, setSelectedEmotion] = useState("");
     const [feelings, setFeelings] = useState("");
 
@@ -73,17 +82,39 @@ const Write = () => {
     const onEmotionPress = (face: string) => setSelectedEmotion(face);
     const onSubmit = () => {
         if (feelings.trim() === "" || selectedEmotion === "") {
-            Alert.alert("", "Please complete form");
-            return;
+            return Alert.alert("", "Please complete form");
         }
+
+        realm.write(() => {
+            const data = realm.create("Feeling", {
+                _id: Date.now(),
+                emotion: selectedEmotion,
+                message: feelings,
+            });
+
+            console.log("data ", data);
+        });
+
+        goBack();       // state clear
     };
+
+    useEffect(() => {
+        console.log(realm);
+    }, []);
+
 
     return (
         <Container>
-            <Title>How do you feel today?</Title>
+            {
+                osType === "android" ?
+                    <Ionicons style={{marginTop: 20,}} name="arrow-back" color={colors.textColor} size={24}/>
+                    : null
+            }
+            <Title osType={osType}>How do you feel today?</Title>
             <Emotions>
                 {emotions.map((emotion, index) => (
-                    <Emotion key={index} isSelected={emotion === selectedEmotion} onPress={() => onEmotionPress(emotion)}>
+                    <Emotion key={index} isSelected={emotion === selectedEmotion}
+                             onPress={() => onEmotionPress(emotion)}>
                         <EmotionText>
                             {emotion}
                         </EmotionText>

@@ -11,6 +11,7 @@
     "@react-navigation/native": "6.0.6",
     "@react-navigation/native-stack": "6.2.5",
     "expo": "~43.0.2",
+    "expo-app-loading": "~1.2.1",
     "expo-splash-screen": "~0.13.5",
     "expo-status-bar": "~1.1.0",
     "expo-updates": "~0.10.13",
@@ -22,6 +23,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "3.8.0",
     "react-native-web": "0.17.1",
+    "realm": "10.10.1",
     "styled-component": "2.8.0",
     "styled-components": "5.3.3"
   },

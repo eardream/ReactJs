@@ -167,6 +167,13 @@ Image.prefetch(imageUrl);
 	* RN 에서 유저가 입력을 할 수 있는 유일한 Component
 <br />
 
+### 🪝 `Context Hook`
+
+* useContext
+* setValue & Shared with other Component
+
+<br />
+
 ### 🌓 `DarkMode`
 
 * 안드로이드, iOS 동일하게 적용이 됨
@@ -248,6 +255,12 @@ const loadMore = () => {
 
 <br />
 
+### 💽 `Realm`
+* MongoDB 사용
+* Expo Cli 위에서는 돌아가지 않음
+* NoSql
+
+<br />
 
 
 ### ⏱ `Splash` And `App Loading`
