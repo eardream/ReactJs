@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {Dimensions, Modal, View} from "react-native";
 import colors from "../colors";
@@ -67,13 +67,18 @@ const CustomAlert = ({
                      }) => {
     const [isReady, setIsReady] = useState(false);
 
+    useEffect(() => {
+        setIsReady(prev => !prev);
+    }, []);
+
+
     return (
         <View>
             <Modal
                 visible={isVisible}
                 animationType='slide'
                 transparent={true}>
-                <Container>
+                <Container isReady={isReady}>
                     <ModalContainer>
                         <MessageContainer>
                             <Message>{displayMsg}</Message>

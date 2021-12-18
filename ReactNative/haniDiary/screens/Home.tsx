@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import {Ionicons} from "@expo/vector-icons";
 import colors from "../colors";
 import {useDB} from "../context/context";
-import {FlatList} from "react-native";
+import {FlatList, LayoutAnimation} from "react-native";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import CustomAlert from "../modal/CustomAlert";
 
@@ -63,13 +63,14 @@ const Home: React.FC<HomeScreenProps> = ({navigation: {navigate}}) => {
     const realm = useDB();
     const [feelings, setFeelings] = useState([]);
 
-    const [isAlertShow, setAlertShow] = useState(true);
+    const [isAlertShow, setAlertShow] = useState(false);
     const [id, setId] = useState(0);
 
     useEffect(() => {
         const initFeelings = realm.objects("Feeling");
 
         initFeelings.addListener((feelings: any, changes: any) => {    // 상태가 변경되거나 업데이트, 생성되었을 때 해당 함수가 호출됨
+            LayoutAnimation.spring();      // state 가 변경될 때 List 내에서 애니메이션 처리
             setFeelings(feelings.sorted("_id", false));     // true -> desc / false -> asc
         });
         return () => {
