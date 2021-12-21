@@ -4,6 +4,7 @@ import colors from "../colors";
 import {Alert, Platform} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {useDB} from "../context/context";
+import {AdMobInterstitial, AdMobRewarded} from "expo-ads-admob";
 
 const Container = styled.View`
   flex: 1;
@@ -80,22 +81,34 @@ const Write: React.FC<WriteProps> = ({navigation: {goBack}}) => {
 
     const onChangeText = (text: string) => setFeelings(text);
     const onEmotionPress = (face: string) => setSelectedEmotion(face);
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if (feelings.trim() === "" || selectedEmotion === "") {
             return Alert.alert("", "Please complete form");
         }
 
-        realm.write(() => {
-            const data = realm.create("Feeling", {
-                _id: Date.now(),
-                emotion: selectedEmotion,
-                message: feelings,
-            });
 
-            console.log("data ", data);
+        // Display an interstitial
+        await AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/1712485313'); // Test ID, Replace with your-admob-unit-id
+        await AdMobRewarded.requestAdAsync({servePersonalizedAds: true});
+        await AdMobRewarded.showAdAsync();
+        AdMobRewarded.addEventListener("rewardedVideoUserDidEarnReward", () => {
+            AdMobRewarded.addEventListener("rewardedVideoDidDismiss", () => {
+
+                realm.write(() => {
+                    const data = realm.create("Feeling", {
+                        _id: Date.now(),
+                        emotion: selectedEmotion,
+                        message: feelings,
+                    });
+
+                    console.log("data ", data);
+                });
+
+                goBack();       // state clear
+            })
+
         });
 
-        goBack();       // state clear
     };
 
     useEffect(() => {

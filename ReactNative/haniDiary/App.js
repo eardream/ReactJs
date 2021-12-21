@@ -5,12 +5,15 @@ import React, {useState} from "react";
 import Navigator from "./navigators/navigator";
 import FeelingSchema from "./models/FeelingSchema";
 import {DBContext} from "./context/context";
+import {setTestDeviceIDAsync} from "expo-ads-admob";
 
 export default function App() {
     const [ready, setReady] = useState(false);
     const [realm, setRealm] = useState(null);
 
     const startLoading = async () => {
+        await setTestDeviceIDAsync("EMULATOR");
+
         const connection = await Realm.open({
             path: "haniDiaryDB",
             schema: [FeelingSchema],

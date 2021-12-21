@@ -3,14 +3,17 @@ import styled from 'styled-components/native';
 import {Ionicons} from "@expo/vector-icons";
 import colors from "../colors";
 import {useDB} from "../context/context";
-import {FlatList, LayoutAnimation} from "react-native";
+import {FlatList, LayoutAnimation, Platform} from "react-native";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import CustomAlert from "../modal/CustomAlert";
+import {AdMobBanner} from "expo-ads-admob";
 
 
 const Container = styled.View`
   flex: 1;
   padding: 75px 50px 0px;
+  justify-content: center;
+  align-items: center;
   background-color: ${colors.bgColor};
 `;
 
@@ -18,6 +21,7 @@ const Title = styled.Text`
   color: ${colors.textColor};
   font-size: 28px;
   margin-bottom: 50px;
+  width: 100%;
 `;
 
 const Btn = styled.TouchableOpacity`
@@ -60,6 +64,7 @@ type HomeScreenProps = {
 };
 
 const Home: React.FC<HomeScreenProps> = ({navigation: {navigate}}) => {
+    const isAndroid = Platform.OS === "android";
     const realm = useDB();
     const [feelings, setFeelings] = useState([]);
 
@@ -104,7 +109,11 @@ const Home: React.FC<HomeScreenProps> = ({navigation: {navigate}}) => {
                 removeAlert={() => removeItem(true)}
             />
             <Title>My Journal</Title>
+            <AdMobBanner
+                bannerSize="fullBanner"
+                adUnitID={isAndroid ? "ca-app-pub-3940256099942544/6300978111" : "ca-app-pub-3940256099942544/2934735716"}/>
             <FlatList
+                style={{marginVertical: 10, width: "100%",}}
                 data={feelings}
                 keyExtractor={feeling => feeling._id + ""}
                 contentContainerStyle={{paddingVertical: 10}}
