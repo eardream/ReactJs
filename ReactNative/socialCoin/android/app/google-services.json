@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "360465350751",
+    "project_id": "rntest-451bc",
+    "storage_bucket": "rntest-451bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360465350751:android:693c8118b7c601b5519bea",
+        "android_client_info": {
+          "package_name": "com.hani.socialcoin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360465350751-cp6gt466j1fjop3kq2tj543coraa5j8i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hani.socialcoin",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "360465350751-g9nohkkgq0e0mmu8lm9f6gi3dbgn2nd3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzND7kCWWefG6W8f_5CQo-tar00UMG3zo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360465350751-g9nohkkgq0e0mmu8lm9f6gi3dbgn2nd3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+
+  ],
+  "configuration_version": "1"
+}
